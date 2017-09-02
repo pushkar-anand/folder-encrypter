@@ -1,5 +1,8 @@
 import gi
-import  first_run
+import first_run
+import decrypter
+import foldersList
+
 gi.require_version('Gtk', '3.0')
 gi.require_version('AppIndicator3', '0.1')
 from gi.repository import Gtk as gtk
@@ -9,19 +12,28 @@ app_id = "FOLDER_ENCRYPTER"
 app_icon = "emblem-nowrite"
 cat = appindicator.IndicatorCategory.APPLICATION_STATUS
 
+
+def decrypt():
+    decrypter.decrypt_all()
+
+
 def build_menu():
     menu = gtk.Menu()
 
-    item_start = gtk.MenuItem('Decrypt')
-    #item_start.connect('activate', start)
-    menu.append(item_start)
+    menu_list = gtk.Menu()
+    for folder in foldersList.folders:
+        list_item = gtk.MenuItem(folder)
+        menu_list.append(list_item)
 
+    item_decrypt = gtk.MenuItem('Decrypt')
+    item_decrypt.set_submenu(menu_list)
+    menu.append(item_decrypt)
     item_stop = gtk.MenuItem('Add Folders')
-    #item_stop.connect('activate', stop)
+    # item_stop.connect('activate', stop)
     menu.append(item_stop)
 
     item_quit = gtk.MenuItem('Remove Folders')
-    #item_quit.connect('activate', quit)
+    # item_quit.connect('activate', quit)
     menu.append(item_quit)
 
     menu.show_all()
