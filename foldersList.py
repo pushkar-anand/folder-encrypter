@@ -1,3 +1,6 @@
+import json
 
-#add the list of folders here
-folders = ["/home/fussu/Desktop/test"]
+with open('folder.json') as data_file:
+    data = json.load(data_file)
+folders = data["folders"]
+
