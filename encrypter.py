@@ -1,3 +1,3 @@
-def encrypt(fullFilePath, folderPath, File):
+def encrypt(folder):
     print("Encrypting")
-    print(fullFilePath+" "+folderPath+ " "+File)
+    print(folder)
