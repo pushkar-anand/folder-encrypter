@@ -1,10 +1,10 @@
 import gi
-import first_run
-import decrypter
-import foldersList
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('AppIndicator3', '0.1')
+import decrypter
+import foldersList
+import file_chooser
 from gi.repository import Gtk as gtk
 from gi.repository import AppIndicator3 as appindicator
 
@@ -13,7 +13,8 @@ app_icon = "emblem-nowrite"
 cat = appindicator.IndicatorCategory.APPLICATION_STATUS
 
 
-def decrypt():
+def decrypt(e, folder_x):
+    print("Decrypting: " + folder_x)
     decrypter.decrypt_all()
 
 
@@ -23,21 +24,30 @@ def build_menu():
     menu_list = gtk.Menu()
     for folder in foldersList.folders:
         list_item = gtk.MenuItem(folder)
+        list_item.connect('activate', decrypt, folder)
         menu_list.append(list_item)
 
     item_decrypt = gtk.MenuItem('Decrypt')
     item_decrypt.set_submenu(menu_list)
     menu.append(item_decrypt)
-    item_stop = gtk.MenuItem('Add Folders')
-    # item_stop.connect('activate', stop)
-    menu.append(item_stop)
 
-    item_quit = gtk.MenuItem('Remove Folders')
-    # item_quit.connect('activate', quit)
-    menu.append(item_quit)
+    item_add = gtk.MenuItem('Add Folder or File')
+    item_add.connect('activate', add_folder)
+    menu.append(item_add)
+
+    item_rm = gtk.MenuItem('Remove Folders')
+    # item_rm.connect('activate', quit)
+    menu.append(item_rm)
 
     menu.show_all()
     return menu
+
+
+def add_folder(__):
+    win = file_chooser.FileChooserWindow()
+    win.connect("delete-event", gtk.main_quit)
+    win.show_all()
+    gtk.main()
 
 
 if __name__ == "__main__":
