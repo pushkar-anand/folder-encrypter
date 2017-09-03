@@ -4,7 +4,7 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('AppIndicator3', '0.1')
 import decrypter
 import foldersList
-import file_chooser
+import folder_chooser
 from gi.repository import Gtk as gtk
 from gi.repository import AppIndicator3 as appindicator
 
@@ -44,7 +44,7 @@ def build_menu():
 
 
 def add_folder(__):
-    win = file_chooser.FileChooserWindow()
+    win = folder_chooser.FileChooserWindow()
     win.connect("delete-event", gtk.main_quit)
     win.show_all()
     gtk.main()
