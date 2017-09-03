@@ -5,6 +5,7 @@ gi.require_version('AppIndicator3', '0.1')
 import decrypter
 import foldersList
 import folder_chooser
+import folder_remover
 from gi.repository import Gtk as gtk
 from gi.repository import AppIndicator3 as appindicator
 
@@ -36,7 +37,7 @@ def build_menu():
     menu.append(item_add)
 
     item_rm = gtk.MenuItem('Remove Folders')
-    # item_rm.connect('activate', quit)
+    item_rm.connect('activate', remove_folder)
     menu.append(item_rm)
 
     menu.show_all()
@@ -49,6 +50,12 @@ def add_folder(__):
     win.show_all()
     gtk.main()
 
+
+def remove_folder(__):
+    win1 = folder_remover.FolderRemoveWindow()
+    win1.connect("delete-event",gtk.main_quit)
+    win1.show_all()
+    gtk.main()
 
 if __name__ == "__main__":
     ind = appindicator.Indicator.new(app_id, app_icon, cat)
