@@ -46,20 +46,20 @@ class ButtonWindow(Gtk.Window):
 
     def launch_get_user_key(self):
         #test
-        Gtk.main_quit()
-        window = Gtk.Window("Folder Encryption")
+        #Gtk.main_quit()
+        #window = Gtk.Window("Folder Encryption")
 
         hbox = Gtk.Box(spacing=6)
 
-        window.add(hbox)
+        #self.add(hbox)
         entry = Gtk.Entry()
         hbox.pack_start(entry, True, True, 0)
 
         button = Gtk.Button.new_with_label("Continue")
         hbox.pack_start(button, True, True, 0)
-        window.connect("delete-event", Gtk.main_quit)
-        window.show_all()
-        Gtk.main()
+        #window.connect("delete-event", Gtk.main_quit)
+        self.show_all()
+        #Gtk.main()
         print("in launc")
 
 
