@@ -26,7 +26,7 @@ class UserKeyInput(Gtk.Window):
     def _continue(self, button):
         self.passphrase = self.entry.get_text()
         print(self.passphrase)
-        first_run.start_encryption(key)
+        first_run.start_encryption(self.passphrase)
 
 
 
