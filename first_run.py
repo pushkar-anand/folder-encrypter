@@ -3,6 +3,7 @@ import foldersList
 import encryptionKeyGenerator
 import encrypter
 import gi
+import userKeyInput
 
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
@@ -43,32 +44,26 @@ class ButtonWindow(Gtk.Window):
 
     def launch_encryption_window(self, key):
         print("enc window")
+        start_encryption(key)
 
     def launch_get_user_key(self):
-        #test
-        #Gtk.main_quit()
-        #window = Gtk.Window("Folder Encryption")
+        Gtk.Window.destroy(self)
+        winu = userKeyInput.UserKeyInput()
+        winu.connect("delete-event", Gtk.main_quit)
+        winu.show_all()
 
-        hbox = Gtk.Box(spacing=6)
-
-        #self.add(hbox)
-        entry = Gtk.Entry()
-        hbox.pack_start(entry, True, True, 0)
-
-        button = Gtk.Button.new_with_label("Continue")
-        hbox.pack_start(button, True, True, 0)
-        #window.connect("delete-event", Gtk.main_quit)
-        self.show_all()
-        #Gtk.main()
         print("in launc")
 
 
-win = ButtonWindow()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+if __name__ == '__main__':
+    win = ButtonWindow()
+    win.connect("delete-event", Gtk.main_quit)
+    win.show_all()
+    Gtk.main()
 
-for folder in foldersList.folders:
-    files = os.listdir(folder)
-    for file in files:
-        encrypter.encrypt(folder + "/" + file, )
+
+def start_encryption(key):
+    for folder in foldersList.folders:
+        files = os.listdir(folder)
+        for file in files:
+            encrypter.first_encrypt(folder + "/" + file, key)
