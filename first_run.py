@@ -1,40 +1,74 @@
-import gi
 import os
 import foldersList
 import encryptionKeyGenerator
 import encrypter
+import gi
 
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk as gtk
+from gi.repository import Gtk
 
-if __name__ == "__main__":
-    SECURE_KEY = encryptionKeyGenerator.key_generator(18)
-    print(SECURE_KEY)
 
-    window = gtk.Window()
-    window.connect("delete_event", gtk.main_quit)
-    window.set_title("Folder Encrypter")
-    window.set_border_width(0)
+class ButtonWindow(Gtk.Window):
+    def __init__(self):
+        Gtk.Window.__init__(self, title="Folder Encryption")
+        self.set_border_width(10)
 
-    box1 = gtk.VBox(False, 0)
-    window.add(box1)
-    box1.show()
+        hbox = Gtk.Box(spacing=6)
+        self.add(hbox)
 
-    box2 = gtk.VBox(False, 10)
-    box2.set_border_width(10)
-    box1.pack_start(box2, True, True, 0)
-    box2.show()
+        button = Gtk.Button.new_with_label("Generate Key")
+        button.connect("clicked", self.generate_key)
+        hbox.pack_start(button, True, True, 0)
 
-    button = gtk.RadioButton(None, "radio button1")
-    box2.pack_start(button, True, True, 0)
-    button.show()
+        button = Gtk.Button.new_with_mnemonic("Use your own Key")
+        button.connect("clicked", self.user_key)
+        hbox.pack_start(button, True, True, 0)
 
-    window.show_all()
+        button = Gtk.Button.new_with_mnemonic("_Close")
+        button.connect("clicked", self.on_close_clicked)
+        hbox.pack_start(button, True, True, 0)
 
-    gtk.main()
+    def generate_key(self, button):
+        gen_key = encryptionKeyGenerator.key_generator(20)
+        self.launch_encryption_window(gen_key)
+        print("\"Generate button\" button was clicked")
 
-print()
-    for folder in foldersList.folders:
-        files = os.listdir(folder)
-        for file in files:
-            encrypter.encrypt(folder + "/" + file, )
+    def user_key(self, button):
+        self.launch_get_user_key()
+        print("\"Open\" button was clicked")
+
+    def on_close_clicked(self, button):
+        print("Closing application")
+        Gtk.main_quit()
+
+    def launch_encryption_window(self, key):
+        print("enc window")
+
+    def launch_get_user_key(self):
+        #test
+        Gtk.main_quit()
+        window = Gtk.Window("Folder Encryption")
+
+        hbox = Gtk.Box(spacing=6)
+
+        window.add(hbox)
+        entry = Gtk.Entry()
+        hbox.pack_start(entry, True, True, 0)
+
+        button = Gtk.Button.new_with_label("Continue")
+        hbox.pack_start(button, True, True, 0)
+        window.connect("delete-event", Gtk.main_quit)
+        window.show_all()
+        Gtk.main()
+        print("in launc")
+
+
+win = ButtonWindow()
+win.connect("delete-event", Gtk.main_quit)
+win.show_all()
+Gtk.main()
+
+for folder in foldersList.folders:
+    files = os.listdir(folder)
+    for file in files:
+        encrypter.encrypt(folder + "/" + file, )
