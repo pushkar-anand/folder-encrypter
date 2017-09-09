@@ -28,9 +28,3 @@ class UserKeyInput(Gtk.Window):
         print(self.passphrase)
         first_run.start_encryption(self.passphrase)
 
-
-
-# win = UserKeyInput()
-# win.connect("delete-event", Gtk.main_quit)
-# win.show_all()
-# Gtk.main()
